@@ -61,20 +61,20 @@ def _call_gemini(user_message: str) -> str:
     """Call Google Gemini API."""
     cfg = config.get("GEMINI", {})
     api_key = cfg.get("API_KEY", "")
-    model = cfg.get("MODEL_NAME", "gemini-2.0-flash")
+    model = cfg.get("MODEL_NAME", "gemini-1.5-flash")
+
+    full_prompt = f"{SYSTEM_PROMPT}\n\nUser: {user_message}"
 
     with httpx.Client(timeout=120) as client:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         resp = client.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}",
+            url,
             json={
-                "system_instruction": {"parts": [{"text": SYSTEM_PROMPT}]},
-                "contents": [{"parts": [{"text": user_message}]}]
+                "contents": [{"parts": [{"text": full_prompt}]}]
             }
         )
         resp.raise_for_status()
         return resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-
-
 def generate_text(user_message: str) -> str:
     """Generate a response using the configured LLM provider."""
     try:

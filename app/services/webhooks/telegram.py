@@ -53,10 +53,9 @@ class TelegramWebhook(WebhookHandler):
         if not self.bot_token:
             logger.error("Telegram BOT_TOKEN not configured")
             return False
-
-        # Telegram has a 4096 char limit per message
+        
         chunks = [text[i:i+4096] for i in range(0, len(text), 4096)]
-
+        
         try:
             async with httpx.AsyncClient(timeout=30) as client:
                 for chunk in chunks:
@@ -65,15 +64,13 @@ class TelegramWebhook(WebhookHandler):
                         json={
                             "chat_id": chat_id,
                             "text": chunk,
-                            "parse_mode": "Markdown",
+                            # حذفنا سطر parse_mode لتجنب أخطاء Entities
                         }
                     )
                     if resp.status_code != 200:
-                        logger.error(
-                            f"Telegram send failed: {resp.status_code} {resp.text}"
-                        )
+                        logger.error(f"Telegram failed: {resp.text}")
                         return False
             return True
         except Exception as e:
-            logger.error(f"Telegram send error: {e}")
+            logger.error(f"Telegram error: {e}")
             return False

@@ -2,7 +2,7 @@
 {
   "LLM_PROVIDER": "gemini", 
   "GEMINI": {
-    "API_KEY": "AIzaSyALrM8l_Ow8WnsHEQ2hppD4iQmQ608xr1E",
+    "API_KEY": "AIzaSyCC7_fliXxh_pXKjSYXJKW13Lp3aimeywk",
     "MODEL_NAME": "gemini-1.5-flash"
   },
   "WEBHOOKS": {

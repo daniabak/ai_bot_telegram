@@ -1,6 +1,7 @@
 import json
 import logging
 import httpx
+import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
 
@@ -57,27 +58,24 @@ def _call_openai_compatible(user_message: str, base_url: str, api_key: str, mode
         resp.raise_for_status()
         return resp.json()["choices"][0]["message"]["content"]
 
+
 def _call_gemini(user_message: str) -> str:
+    """استخدام المكتبة الرسمية لتجنب أخطاء الروابط"""
     cfg = config.get("GEMINI", {})
     api_key = cfg.get("API_KEY", "")
-    # جربي استخدام هذا الاسم بالتحديد
-    model = "gemini-1.5-flash" 
+    model_name = cfg.get("MODEL_NAME", "gemini-1.5-flash")
 
+    # إعداد المكتبة بالمفتاح
+    genai.configure(api_key=api_key)
+    
+    # اختيار الموديل
+    model = genai.GenerativeModel(model_name)
+    
+    # إرسال الطلب مع البرومبت الأساسي
     full_prompt = f"{SYSTEM_PROMPT}\n\nUser: {user_message}"
-
-    with httpx.Client(timeout=120) as client:
-        # قمنا بتغيير v1beta إلى v1 هنا
-        url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
-        resp = client.post(
-            url,
-            json={
-                "contents": [{"parts": [{"text": full_prompt}]}]
-            }
-        )
-        # إذا استمر الـ 404، سيطبع اللوغ الخطأ هنا لنعرف السبب
-        resp.raise_for_status()
-        return resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-
+    response = model.generate_content(full_prompt)
+    
+    return response.text
 def generate_text(user_message: str) -> str:
     """Generate a response using the configured LLM provider."""
     try:

@@ -1,9 +1,9 @@
 
 {
-  "LLM_PROVIDER": "gemini", 
+  "LLM_PROVIDER": "openai", 
   "GEMINI": {
-    "API_KEY": "AIzaSyCC7_fliXxh_pXKjSYXJKW13Lp3aimeywk",
-    "MODEL_NAME": "gemini-1.5-flash"
+    "API_KEY": "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",
+    "MODEL_NAME": "gpt-4o-mini"
   },
   "WEBHOOKS": {
     "TELEGRAM": {

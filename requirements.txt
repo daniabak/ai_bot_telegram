@@ -4,3 +4,4 @@ quart
 python-telegram-bot
 google-generativeai
 python-dotenv
+openai

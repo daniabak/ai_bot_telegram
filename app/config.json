@@ -1,0 +1,11 @@
+{
+      "GEMINI": {
+    "API_KEY": "AIzaSyALrM8l_Ow8WnsHEQ2hppD4iQmQ608xr1E"
+  },
+    "WEBHOOKS": {
+    "TELEGRAM": {
+      "BOT_TOKEN": "8643444374:AAGqhlkyE_5lLx7IQIoukHSsSbCCOrUDISo",
+      "WEBHOOK_SECRET": "a1s2sd3f4g5h6h7j8k89"
+    }
+  }
+}

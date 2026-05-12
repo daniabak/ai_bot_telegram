@@ -13,7 +13,6 @@ def generate_text(user_message: str) -> str:
             api_key=GROQ_API_KEY
         )
         
-        # قمنا بتحديث اسم الموديل هنا إلى الموديل الأحدث
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile", 
             messages=[

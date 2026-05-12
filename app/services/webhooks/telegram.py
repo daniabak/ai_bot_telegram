@@ -64,7 +64,6 @@ class TelegramWebhook(WebhookHandler):
                         json={
                             "chat_id": chat_id,
                             "text": chunk,
-                            # حذفنا سطر parse_mode لتجنب أخطاء Entities
                         }
                     )
                     if resp.status_code != 200:
